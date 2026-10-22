@@ -1,39 +1,20 @@
 class Solution {
 public:
     int maximumPrimeDifference(vector<int>& nums) {
-         int n = nums.size();
-        int left = 0, right = n - 1;
-
-        while (left < n) {
-            int x = nums[left];
-            bool prime = x >= 2;
-
-            for (int j = 2; j * j <= x; j++) {
-                if (x % j == 0) {
-                    prime = false;
-                    break;
-                }
+        vector<bool> prime(101,1);
+        prime[0]=0;
+        prime[1]=0;
+        for(int i=2;i*i<=100;i++){
+            if(prime[i]==1){
+                for(int j=i*i;j<=100;j+=i)
+                prime[j]=0;
             }
-
-            if (prime) break;
-            left++;
         }
-
-        while (right >= 0) {
-            int x = nums[right];
-            bool prime = x >= 2;
-
-            for (int j = 2; j * j <= x; j++) {
-                if (x % j == 0) {
-                    prime = false;
-                    break;
-                }
-            }
-
-            if (prime) break;
-            right--;
-        }
-
-        return right - left;
+        int ptr1=0,ptr2=nums.size()-1;
+        while(ptr1<nums.size()&& prime[nums[ptr1]]==0)
+            ptr1++;
+        while(ptr2>=0&& prime[nums[ptr2]]==0)
+            ptr2--;
+    return ptr2 - ptr1;
     }
 };
