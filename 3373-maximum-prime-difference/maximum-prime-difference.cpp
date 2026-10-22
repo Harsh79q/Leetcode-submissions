@@ -1,26 +1,39 @@
 class Solution {
 public:
     int maximumPrimeDifference(vector<int>& nums) {
-         int first = -1, last = -1;
+         int n = nums.size();
+        int left = 0, right = n - 1;
 
-        for (int i = 0; i < nums.size(); i++) {
-            int n = nums[i];
-            bool prime = n >= 2;
+        while (left < n) {
+            int x = nums[left];
+            bool prime = x >= 2;
 
-            for (int j = 2; j * j <= n; j++) {
-                if (n % j == 0) {
+            for (int j = 2; j * j <= x; j++) {
+                if (x % j == 0) {
                     prime = false;
                     break;
                 }
             }
 
-            if (prime) {
-                if (first == -1)
-                    first = i;
-                last = i;
-            }
+            if (prime) break;
+            left++;
         }
 
-        return last - first;
+        while (right >= 0) {
+            int x = nums[right];
+            bool prime = x >= 2;
+
+            for (int j = 2; j * j <= x; j++) {
+                if (x % j == 0) {
+                    prime = false;
+                    break;
+                }
+            }
+
+            if (prime) break;
+            right--;
+        }
+
+        return right - left;
     }
 };
